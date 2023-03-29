@@ -1,0 +1,35 @@
+instanceId: ${random.value}
+
+spring:
+  application:
+    name: subscription-service
+
+server:
+  port: ${MS_PORT:0}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${instanceId}}}
+
+info:
+  app: subscription
+  name: subscription-service
+  description: Service to user subscription management
+  version: 1.0.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, trace, serviceregistry
+  info:
+    env:
+      enabled: true
+
+message: "subscription service configuration development environment is alive"
